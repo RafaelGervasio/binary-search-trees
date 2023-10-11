@@ -1,53 +1,40 @@
 class Tree
     
-    def initialize (root=nil)
-        # @array = array
-        @root = nil
+    def initialize (array)
+        array = array.sort.uniq
+        @root = build_tree_recursive(array)
     end
 
     def root
         @root
     end
 
-    def build_tree (array)
-        until array.length == 0
-            array = array.sort.uniq
-            p array
-            
-            start = 0
-            ending = array.length - 1
-            mid = start + ending / 2
-
-            # p mid
-
-            
-            #if there's a top root, pass current root as pointet to top root
-            if @root.nil?
-                @root = Node.new(array[mid])
-            elsif
-                node = Node.new(array[mid])
-                if @root.value > node.value
-                    # nx = @root
-                    # until nx.left_pt.nil?
-                    #     nx = nx.left_pt
-                    # end
-                    # nx.left_pt = node
-                    @root.left_pt = node
-                else
-                    @root.right_pt = node
-                end
-            end
-            left_array = array[0...mid]
-            right_array = array[mid+1..ending]
-
-            # p left_array
-            # p right_array
-
-            build_tree(left_array)
-            build_tree(right_array)
-            return
+    def build_tree_recursive (array)
+        if array.empty?
+            return nil
         end
+        last = array.length - 1
+        mid = (last / 2).to_i
+
+        root_node = array[mid]
+
+        left_node = build_tree_recursive(array[0...mid])
+        right_node = build_tree_recursive(array[mid+1..-1])
+
+
+        node = Node.new(root_node, left_node, right_node)
+        return node
     end
+      
+
+      def pretty_print(node = @root, prefix = '', is_left = true)
+        return if node.nil?
+      
+        pretty_print(node.right_pt, "#{prefix}#{is_left ? '│   ' : '    '}", false)
+        puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.value}"
+        pretty_print(node.left_pt, "#{prefix}#{is_left ? '    ' : '│   '}", true)
+      end
+      
 
 end
 
@@ -74,7 +61,5 @@ class Node
 end
 
 
-t = Tree.new()
-t.build_tree([3, 2, 1])
-
-p t.root
+t = Tree.new([7, 6, 5, 4, 3, 2, 1])
+t.pretty_print
