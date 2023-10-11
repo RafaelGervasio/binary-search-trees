@@ -1,45 +1,80 @@
-$substrings_list = []
+class Tree
+    
+    def initialize (root=nil)
+        # @array = array
+        @root = nil
+    end
 
-def substrings (word, dictionary)
-    dictionary = dictionary.map {|str| str.downcase}
-    word = word.downcase
-    $size = word.length
-    hash = {}
+    def root
+        @root
+    end
 
-    find_subs(word)
+    def build_tree (array)
+        until array.length == 0
+            array = array.sort.uniq
+            p array
+            
+            start = 0
+            ending = array.length - 1
+            mid = start + ending / 2
 
-    $substrings_list.each do |sub_string|
-        dictionary.each do |dict_word|
-            if sub_string == dict_word
-                if hash[sub_string] != nil
-                    hash[sub_string] += 1
+            # p mid
+
+            
+            #if there's a top root, pass current root as pointet to top root
+            if @root.nil?
+                @root = Node.new(array[mid])
+            elsif
+                node = Node.new(array[mid])
+                if @root.value > node.value
+                    # nx = @root
+                    # until nx.left_pt.nil?
+                    #     nx = nx.left_pt
+                    # end
+                    # nx.left_pt = node
+                    @root.left_pt = node
                 else
-                    hash[sub_string] = 1
+                    @root.right_pt = node
                 end
             end
+            left_array = array[0...mid]
+            right_array = array[mid+1..ending]
+
+            # p left_array
+            # p right_array
+
+            build_tree(left_array)
+            build_tree(right_array)
+            return
         end
     end
 
-    return hash
 end
 
-def find_subs (word, index=0, target=0)
-    if word.empty?
-        return
-    end
-    
-    while target < word.length
-        $substrings_list.push(word[index..target]) 
-        target+=1
+class Node
+    attr_accessor :value, :left_pt, :right_pt
+
+    def initialize(value=nil, left_pt=nil, right_pt=nil)
+        @value = value
+        @left_pt = left_pt
+        @right_pt = right_pt
     end
 
-    if index<=$size
-        word = word[1..-1]
-        find_subs(word, index=0, target=0)
-    else
-        return
+    def value
+        return @value
+    end
+
+    def right_pt
+        @right_pt
+    end
+
+    def left_pt
+        @left_pt
     end
 end
 
-# list = ["below","down","go","going","horn","how","howdy","it","i","low","own","part","partner","sit"]
-# substrings("Howdy partner, sit down! How's it going?", list)
+
+t = Tree.new()
+t.build_tree([3, 2, 1])
+
+p t.root
