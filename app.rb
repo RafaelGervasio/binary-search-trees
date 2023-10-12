@@ -61,7 +61,7 @@ class Tree
 
         #base case
 
-        if value > node.value
+        if value> node.value
             node.right_pt.nil? ? node.right_pt = Node.new(value) : insert(value, node.right_pt)
         elsif value < node.value
             node.left_pt.nil? ? node.left_pt = Node.new(value) : node = insert(value, node.left_pt)
@@ -77,12 +77,22 @@ class Tree
             node.left_pt.nil? ? "Value doesn't exist in tree" : delete(value, node.left_pt)
         else
             if node.left_pt.nil? && node.right_pt.nil?
-                node.remove_instance_variable(:@value)
+                node.value = nil
             end
         end
+    end
 
+    def find_parent(value, current = @root)
+        return nil if @root.value == value
 
+        unless current.left_pt.nil?
+            return current if current.left_pt.value == value
+        end
+        unless current.right_pt.nil?
+            return current if current.right_pt.value == value
+        end
 
+        current.value > value ? find_parent(value, current.left_pt) : find_parent(value, current.right_pt)
       end
       
 
@@ -112,14 +122,37 @@ end
 
 
 t = Tree.new([7, 6, 5, 4, 3, 2, 1])
-t.pretty_print
 
 t.insert(10)
+
+
 t.insert(0)
 t.insert(8)
-t.delete(8)
 
 t.pretty_print
 
+p t.find_parent(8)
+p t.find_parent(10)
+p t.find_parent(4)
+p t.find_parent(6)
+p t.find_parent(0)
+p t.find_parent(1)
 
-p t.root
+# t.delete(8)
+
+# t.pretty_print
+
+
+# p t.root
+
+
+#SOLUTION 1
+# - Create a all_nodes IV in Nodes
+# - Iterate over it until you find the node who's left and/or right pointer points to the Node I want to delete 
+# - Cut it
+
+# - If you're doing that, you lose the efficeincy benefit of deleting on the tree
+
+
+#SOLUTION 2
+# - 
