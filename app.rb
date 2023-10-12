@@ -34,6 +34,56 @@ class Tree
         puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.value}"
         pretty_print(node.left_pt, "#{prefix}#{is_left ? '    ' : '│   '}", true)
       end
+
+      def insert (value, node = @root)
+        # node = @root
+        # inserted = false
+
+        # until inserted
+        #     if value > node.value && node.right_pt.nil? == false
+        #         node = node.right_pt
+        #     elsif value < node.value && node.left_pt.nil? == false
+        #         node = node.left_pt
+        #     else
+        #         if value > node.value
+        #             #insert to the right
+        #             n = Node.new(value)
+        #             node.right_pt = n
+        #             inserted = true
+        #         else
+        #             #insert to the left
+        #             n = Node.new(value)
+        #             node.left_pt = n
+        #             inserted = true
+        #         end
+        #     end
+        # end
+
+        #base case
+
+        if value > node.value
+            node.right_pt.nil? ? node.right_pt = Node.new(value) : insert(value, node.right_pt)
+        elsif value < node.value
+            node.left_pt.nil? ? node.left_pt = Node.new(value) : node = insert(value, node.left_pt)
+        end
+
+
+      end
+
+      def delete (value, node = @root)
+        if value > node.value
+            node.right_pt.nil? ? "Value doesn't exist in tree" : delete(value, node.right_pt)
+        elsif value < node.value
+            node.left_pt.nil? ? "Value doesn't exist in tree" : delete(value, node.left_pt)
+        else
+            if node.left_pt.nil? && node.right_pt.nil?
+                node.remove_instance_variable(:@value)
+            end
+        end
+
+
+
+      end
       
 
 end
@@ -63,3 +113,13 @@ end
 
 t = Tree.new([7, 6, 5, 4, 3, 2, 1])
 t.pretty_print
+
+t.insert(10)
+t.insert(0)
+t.insert(8)
+t.delete(8)
+
+t.pretty_print
+
+
+p t.root
