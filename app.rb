@@ -77,7 +77,8 @@ class Tree
             node.left_pt.nil? ? "Value doesn't exist in tree" : delete(value, node.left_pt)
         else
             if node.left_pt.nil? && node.right_pt.nil?
-                node.value = nil
+                parent_node = find_parent(node.value)
+                parent_node.left_pt == node ? parent_node.left_pt = nil : parent_node.right_pt = nil
             end
         end
     end
@@ -124,26 +125,18 @@ end
 t = Tree.new([7, 6, 5, 4, 3, 2, 1])
 
 t.insert(10)
-
-
 t.insert(0)
 t.insert(8)
 
 t.pretty_print
 
-p t.find_parent(8)
-p t.find_parent(10)
-p t.find_parent(4)
-p t.find_parent(6)
-p t.find_parent(0)
-p t.find_parent(1)
+t.delete(8)
+t.delete(10)
+t.delete(0)
 
-# t.delete(8)
+t.pretty_print
 
-# t.pretty_print
-
-
-# p t.root
+p t.root
 
 
 #SOLUTION 1
