@@ -80,6 +80,19 @@ class Tree
                 parent_node = find_parent(node.value)
                 parent_node.left_pt == node ? parent_node.left_pt = nil : parent_node.right_pt = nil
             end
+
+            #now we're dealing with nodes that have either one or two children
+            unless node.left_pt.nil? == false && node.right_pt.nil? == false
+                if node.left_pt.nil? 
+                    temp = node.right_pt.value
+                    node.value = temp
+                    node.right_pt = nil
+                else
+                    temp = node.left_pt.value
+                    node.value = temp
+                    node.left_pt = nil
+                end
+            end
         end
     end
 
@@ -130,22 +143,10 @@ t.insert(8)
 
 t.pretty_print
 
-t.delete(8)
 t.delete(10)
-t.delete(0)
+t.delete(1)
 
 t.pretty_print
 
 p t.root
 
-
-#SOLUTION 1
-# - Create a all_nodes IV in Nodes
-# - Iterate over it until you find the node who's left and/or right pointer points to the Node I want to delete 
-# - Cut it
-
-# - If you're doing that, you lose the efficeincy benefit of deleting on the tree
-
-
-#SOLUTION 2
-# - 
