@@ -79,8 +79,7 @@ class Tree
                 node.value = replacer.value
 
                 replacer_parent.left_pt == replacer.value ? replacer_parent.left_pt = nil : replacer_parent.right_pt = nil
-                if replacer_parent.left_pt == replacer.value
-
+                
             end
 
             end
@@ -99,6 +98,16 @@ class Tree
         current.value > value ? find_parent(value, current.left_pt) : find_parent(value, current.right_pt)
       end
       
+    def find (value, node = @root)
+        if node.nil?
+            return "Not doesn't exist in the tree"
+        elsif node.value == value
+            return node
+        else
+            value > node.value ? find(value, node.right_pt) : find(value, node.left_pt)
+        end
+    end
+
 
 end
 
@@ -130,10 +139,6 @@ t = Tree.new([8, 7, 6, 5, 4, 3, 2, 1])
 
 t.pretty_print
 
-t.delete(2)
-t.delete(6)
-
-t.pretty_print
 
 # p t.root
 
