@@ -189,6 +189,15 @@ class Tree
         end
         count
     end
+
+    def balanced?
+        if (height(@root.left_pt) - height(@root.right_pt)) <=1 && (height(@root.left_pt) - height(@root.right_pt)) >= -1
+            true
+        else
+            false
+        end
+    end
+
 end
 
 class Node
@@ -214,13 +223,13 @@ class Node
 end
 
 
-t = Tree.new([7, 6, 5, 4, 3, 2, 1])
+t = Tree.new([7, 6, 5, 4, 3, 2, 1,])
 
 
 t.pretty_print
 
-p t.depth(t.root)
-p t.depth(t.root.left_pt.left_pt)
-p t.depth(t.root.right_pt)
+# p t.depth(t.root)
+# p t.depth(t.root.left_pt.left_pt)
+# p t.depth(t.root.right_pt)
 
-
+p t.balanced?
