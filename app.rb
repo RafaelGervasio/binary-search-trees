@@ -198,6 +198,11 @@ class Tree
         end
     end
 
+    def rebalance
+        array_elems = inorder()
+        @root = build_tree_recursive(array_elems)
+    end
+
 end
 
 class Node
@@ -223,13 +228,24 @@ class Node
 end
 
 
-t = Tree.new([7, 6, 5, 4, 3, 2, 1,])
-
-
+t = Tree.new((Array.new(15) { rand(1..100) }))
+p t.balanced?
 t.pretty_print
+p t.level_order
+p t.inorder
+p t.preorder
+p t.postorder
 
-# p t.depth(t.root)
-# p t.depth(t.root.left_pt.left_pt)
-# p t.depth(t.root.right_pt)
+t.insert(150)
+t.insert(120)
+t.insert(200)
 
 p t.balanced?
+t.rebalance
+p t.balanced?
+
+t.pretty_print
+p t.level_order
+p t.inorder
+p t.preorder
+p t.postorder
