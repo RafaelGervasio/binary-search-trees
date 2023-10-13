@@ -100,7 +100,7 @@ class Tree
       
     def find (value, node = @root)
         if node.nil?
-            return "Not doesn't exist in the tree"
+            return "Doesn't exist in the tree"
         elsif node.value == value
             return node
         else
@@ -148,6 +148,39 @@ class Tree
         block_given? ? block.call(node) : array.push(node.value)
         array.empty? ? '' : array
     end
+
+    def height (node)
+        
+        smallest_elem = inorder()[0]
+        biggest_elem = inorder()[-1]
+        if node.value == @root.value
+            count_a = 0
+            until smallest_elem == node.value
+                count_a+=1
+                smallest_elem = find_parent(smallest_elem).value
+            end
+            count_b = 0
+            until biggest_elem == node.value
+                count_b+=1
+                biggest_elem = find_parent(biggest_elem).value
+            end
+            count_a>count_b ? count_a : count_b
+        elsif node.value < @root.value
+            count = 0
+            until smallest_elem == node.value
+                count+=1
+                smallest_elem = find_parent(smallest_elem).value
+            end
+            count
+        else
+            count = 0
+            until biggest_elem == node.value
+                count+=1
+                biggest_elem = find_parent(biggest_elem).value
+            end
+            count
+        end
+    end
 end
 
 class Node
@@ -173,23 +206,9 @@ class Node
 end
 
 
-t = Tree.new([8, 7, 6, 5, 4, 3, 2, 1])
+t = Tree.new([7, 6, 5, 4, 3, 2, 1])
 
 
 t.pretty_print
 
-# t.level_order {|node| p node.value}
-# p t.level_order
-
-# t.preorder {|node| p node.value}
-# p t.preorder 
-
-# t.inorder {|node| p node.value}
-# p t.inorder 
-
-t.postorder {|node| p node.value}
-p t.postorder 
-
-
-# p t.root
 
