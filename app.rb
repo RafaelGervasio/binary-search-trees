@@ -108,6 +108,33 @@ class Tree
         end
     end
 
+    def level_order(&block)
+        queue = []
+        array = []
+        queue.push (@root)
+        until queue.length == 0
+            if block_given?
+                block.call(queue[0])
+            else
+                array.push(queue[0].value)
+            end
+            queue[0].left_pt.nil? ? '' : queue.push(queue[0].left_pt)
+            queue[0].right_pt.nil? ? '' : queue.push(queue[0].right_pt)
+            queue.shift()
+        end
+        array.empty? ? '' : array
+    end
+
+    def preorder (node = @root, array = [], &block)
+        if node.nil?
+            return
+        else
+            block_given? ? block.call(node) : array.push(node.value)
+            preorder(node.left_pt, array, &block)
+            preorder(node.right_pt, array, &block)
+        end
+        array.length == 0 ? '' : array
+    end
 
 end
 
@@ -138,6 +165,12 @@ t = Tree.new([8, 7, 6, 5, 4, 3, 2, 1])
 
 
 t.pretty_print
+
+# t.level_order {|node| p node.value}
+# p t.level_order
+
+# t.preorder {|node| p node.value}
+# p t.preorder 
 
 
 # p t.root
