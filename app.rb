@@ -36,38 +36,11 @@ class Tree
       end
 
       def insert (value, node = @root)
-        # node = @root
-        # inserted = false
-
-        # until inserted
-        #     if value > node.value && node.right_pt.nil? == false
-        #         node = node.right_pt
-        #     elsif value < node.value && node.left_pt.nil? == false
-        #         node = node.left_pt
-        #     else
-        #         if value > node.value
-        #             #insert to the right
-        #             n = Node.new(value)
-        #             node.right_pt = n
-        #             inserted = true
-        #         else
-        #             #insert to the left
-        #             n = Node.new(value)
-        #             node.left_pt = n
-        #             inserted = true
-        #         end
-        #     end
-        # end
-
-        #base case
-
         if value> node.value
             node.right_pt.nil? ? node.right_pt = Node.new(value) : insert(value, node.right_pt)
         elsif value < node.value
             node.left_pt.nil? ? node.left_pt = Node.new(value) : node = insert(value, node.left_pt)
         end
-
-
       end
 
       def delete (value, node = @root)
@@ -79,6 +52,7 @@ class Tree
             if node.left_pt.nil? && node.right_pt.nil?
                 parent_node = find_parent(node.value)
                 parent_node.left_pt == node ? parent_node.left_pt = nil : parent_node.right_pt = nil
+                return
             end
 
             #now we're dealing with nodes that have either one or two children
@@ -92,9 +66,25 @@ class Tree
                     node.value = temp
                     node.left_pt = nil
                 end
+            else
+                #2 childs deletion
+                #find replacer
+                replacer = nil
+                replacer = node.right_pt
+                
+                until replacer.left_pt == nil
+                    replacer = replacer.left_pt
+                end
+                replacer_parent = find_parent(replacer.value)
+                node.value = replacer.value
+
+                replacer_parent.left_pt == replacer.value ? replacer_parent.left_pt = nil : replacer_parent.right_pt = nil
+                if replacer_parent.left_pt == replacer.value
+
+            end
+
             end
         end
-    end
 
     def find_parent(value, current = @root)
         return nil if @root.value == value
@@ -135,18 +125,15 @@ class Node
 end
 
 
-t = Tree.new([7, 6, 5, 4, 3, 2, 1])
+t = Tree.new([8, 7, 6, 5, 4, 3, 2, 1])
 
-t.insert(10)
-t.insert(0)
-t.insert(8)
 
 t.pretty_print
 
-t.delete(10)
-t.delete(1)
+t.delete(2)
+t.delete(6)
 
 t.pretty_print
 
-p t.root
+# p t.root
 
