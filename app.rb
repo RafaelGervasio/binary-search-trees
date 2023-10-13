@@ -150,7 +150,6 @@ class Tree
     end
 
     def height (node)
-        
         smallest_elem = inorder()[0]
         biggest_elem = inorder()[-1]
         if node.value == @root.value
@@ -181,6 +180,15 @@ class Tree
             count
         end
     end
+
+    def depth(node)
+        count = 0
+        until node == @root
+            node = find_parent(node.value)
+            count +=1
+        end
+        count
+    end
 end
 
 class Node
@@ -210,5 +218,9 @@ t = Tree.new([7, 6, 5, 4, 3, 2, 1])
 
 
 t.pretty_print
+
+p t.depth(t.root)
+p t.depth(t.root.left_pt.left_pt)
+p t.depth(t.root.right_pt)
 
 
