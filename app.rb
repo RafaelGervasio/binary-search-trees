@@ -125,6 +125,14 @@ class Tree
         array.empty? ? '' : array
     end
 
+    def preorder (node = @root, array = [], &block)
+        node.nil? ? return : ''
+        block_given? ? block.call(node) : array.push(node.value)
+        preorder(node.left_pt, array, &block)
+        preorder(node.right_pt, array, &block)
+        array.length == 0 ? '' : array
+    end
+
     def inorder (node = @root, array = [], &block)
         node.nil? ? return : ''
         inorder(node.left_pt, array, &block)
@@ -132,14 +140,13 @@ class Tree
         inorder(node.right_pt, array, &block)
         array.empty? ? '' : array
     end
-
-
-    def preorder (node = @root, array = [], &block)
+    
+    def postorder (node = @root, array = [], &block)
         node.nil? ? return : ''
+        postorder(node.left_pt, array, &block)
+        postorder(node.right_pt, array, &block)
         block_given? ? block.call(node) : array.push(node.value)
-        preorder(node.left_pt, array, &block)
-        preorder(node.right_pt, array, &block)
-        array.length == 0 ? '' : array
+        array.empty? ? '' : array
     end
 end
 
@@ -179,6 +186,9 @@ t.pretty_print
 
 # t.inorder {|node| p node.value}
 # p t.inorder 
+
+t.postorder {|node| p node.value}
+p t.postorder 
 
 
 # p t.root
